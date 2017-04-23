@@ -17,7 +17,12 @@ npm i multipart_write_stream -S
 ```
 
 ## Usage
-
+ral reponse like:
+{
+    status: 0, //0 is ok other error
+    msg: 'ok', //status desc
+    data: [], success data
+}
 ```js
 
 ral.request('bind_device', {
