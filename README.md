@@ -17,12 +17,15 @@ npm i ral-request -S
 ```
 
 ## Usage
+```js
 ral reponse like:
 {
     status: 0, //0 is ok other error
     msg: 'ok', //status desc
     data: [], success data
 }
+```
+
 ```js
 
 ral.request('bind_device', {
