@@ -11,13 +11,10 @@ function now() {
 module.exports = {
     request: function(serviceName, opt) {
         let start = now();
-        if (!(_.isObject(opt.headers) && !_.isArray(opt.headers))) {
+        if (_.has(opt, 'headers') && !(_.isObject(opt.headers) && !_.isArray(opt.headers))) {
             delete opt.headers;
         }
-        if (!opt.data) {
-            delete opt.data;
-        }
-        if (!(_.isObject(opt.query) && !_.isArray(query))) {
+        if (_.has(opt, 'query') && !(_.isObject(opt.query) && !_.isArray(query))) {
             delete opt.query;
         }
         return ralP(serviceName, opt).then(function(data) {
