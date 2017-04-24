@@ -14,7 +14,7 @@ module.exports = {
         if (_.has(opt, 'headers') && !(_.isObject(opt.headers) && !_.isArray(opt.headers))) {
             delete opt.headers;
         }
-        if (_.has(opt, 'query') && !(_.isObject(opt.query) && !_.isArray(query))) {
+        if (_.has(opt, 'query') && !(_.isObject(opt.query) && !_.isArray(opt.query))) {
             delete opt.query;
         }
         return ralP(serviceName, opt).then(function(data) {
