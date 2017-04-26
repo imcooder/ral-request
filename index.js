@@ -1,12 +1,24 @@
+/*jshint esversion: 6 */
 const os = require('os');
 const path = require('path');
 const _ = require('underscore');
 var RAL = require('yog-ral').RAL;
 var ralP = require('yog-ral').RALPromise;
 
+function StatusError(status, message) {
+    let self = this;
+    self.name = 'MyError';
+    self.message = message || 'Default Message';
+    self.stack = (new Error()).stack;
+}
+StatusError.prototype = Object.create(Error.prototype);
+StatusError.prototype.constructor = MyError;
+
+
+
 function now() {
     return (new Date()).valueOf();
-};
+}
 
 module.exports = {
     request: function(serviceName, opt) {
@@ -30,13 +42,13 @@ module.exports = {
             if (!_.has(jsonObject, 'status')) {
                 console.error('need status');
                 console.log('[rpc]using:%d', now() - start);
-                return Promise.reject(new Error('need status'));
+                return Promise.reject(new StatusError(-1, 'need status'));
             }
             if (jsonObject.status !== 0) {
                 let errMsg = jsonObject.msg || '';
                 console.error('status:%d not zero msg:%s', jsonObject.status, errMsg);
                 console.log('[rpc]using:%d', now() - start);
-                return Promise.reject(new Error(errMsg));
+                return Promise.reject(new StatusError(jsonObject.status, errMsg));
             }
             console.log('[rpc]using:%d', now() - start);
             return jsonObject.data;
@@ -44,7 +56,7 @@ module.exports = {
             console.error('[ral]call failed:error:%s', error.stack);
             if (error.code === 'ETIMEDOUT' || error.code === 'ESOCKETTIMEDOUT') {
                 console.error('[rpc] timeout opt:%j', options);
-                return Promise.reject(new Error('timeout'));
+                return Promise.reject(new StatusError(-3, 'timeout'));
             }
             console.log('[rpc]using:%d', now() - start);
             return Promise.reject(error);
