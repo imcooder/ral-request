@@ -12,7 +12,7 @@ function StatusError(status, message) {
     self.stack = (new Error()).stack;
 }
 StatusError.prototype = Object.create(Error.prototype);
-StatusError.prototype.constructor = MyError;
+StatusError.prototype.constructor = StatusError;
 
 
 
