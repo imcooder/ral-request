@@ -45,6 +45,20 @@ ral.request('bind_device', {
             console.log(error);  
         });
 ```
+response data:
+```js
+{
+	status: 0,
+	msg:"ok",
+	data: {}
+}
+```
+#### ral.request
+resovle return data; if status !=0 reject
+
+
+#### ral.requestJson
+resolve response body(json) ignore status check
 ## License
 
 The [MIT License](LICENSE)
