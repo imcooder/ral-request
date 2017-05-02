@@ -7,7 +7,7 @@ var ralP = require('yog-ral').RALPromise;
 
 function StatusError(status, message) {
     let self = this;
-    self.name = 'MyError';
+    self.name = 'StatusError';
     self.message = message || 'Default Message';
     self.stack = (new Error()).stack;
 }
@@ -52,6 +52,36 @@ module.exports = {
             }
             console.log('[rpc]using:%d', now() - start);
             return jsonObject.data;
+        }).catch(function(error) {
+            console.error('[ral]call failed:error:%s', error.stack);
+            if (error.code === 'ETIMEDOUT' || error.code === 'ESOCKETTIMEDOUT') {
+                console.error('[rpc] timeout opt:%j', options);
+                return Promise.reject(new StatusError(-3, 'timeout'));
+            }
+            console.log('[rpc]using:%d', now() - start);
+            return Promise.reject(error);
+        });
+    },
+    requestJson: function(serviceName, opt) {
+        let start = now();
+        if (_.has(opt, 'headers') && !(_.isObject(opt.headers) && !_.isArray(opt.headers))) {
+            delete opt.headers;
+        }
+        if (_.has(opt, 'query') && !(_.isObject(opt.query) && !_.isArray(opt.query))) {
+            delete opt.query;
+        }
+        return ralP(serviceName, opt).then(function(data) {
+            console.log('ral response:', data);
+            if (data && _.isString(data)) {
+                try {
+                    data = JSON.parse(data);
+                } catch (error) {
+                    console.error('parse json failed:str[%s] error:%s', error.stack);
+                    return Promise.reject(new StatusError(-10, 'bad json'));
+                }
+            }
+            console.log('[rpc]using:%d', now() - start);
+            return data;
         }).catch(function(error) {
             console.error('[ral]call failed:error:%s', error.stack);
             if (error.code === 'ETIMEDOUT' || error.code === 'ESOCKETTIMEDOUT') {
