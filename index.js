@@ -18,7 +18,7 @@ function now() {
 
 module.exports = {
     initRal: function(opt) {
-        logger.debug('initRal:%j', opt);
+        console.log('initRal:%j', opt);
         RAL.init(opt);
     },
     request: function(serviceName, opt) {
