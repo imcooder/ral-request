@@ -53,7 +53,7 @@ response data:
 	data: {}
 }
 ```
-#### ral.initRAL
+#### ral.initRal
 初始化ral配置
 #### ral.request
 resovle return data; if status !=0 reject
