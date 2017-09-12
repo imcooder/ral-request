@@ -20,30 +20,30 @@ npm i ral-request -S
 ```js
 ral reponse like:
 {
-    status: 0, //0 is ok other error
-    msg: 'ok', //status desc
-    data: [], success data
+	status: 0, //0 is ok other error
+	msg: 'ok', //status desc
+	data: [], success data
 }
 ```
 
 ```js
 
 ral.request('bind_device', {
-                data: {
-                    data: {}, // post body
-                },
-                headers: {
-                    saiyalogid: logid, //http header
-                },
-                query: {
-                    dumi_id: userInfo.dumi_uid, //url query
-                }
-            });
-        }).then(function() {
-            console.log('[avs]directives bind finish'); 
-        }).catch(function(error) {
-            console.log(error);  
-        });
+				data: {
+					data: {}, // post body
+				},
+				headers: {
+					saiyalogid: logid, //http header
+				},
+				query: {
+					dumi_id: userInfo.dumi_uid, //url query
+				}
+			});
+		}).then(function() {
+			console.log('[avs]directives bind finish');
+		}).catch(function(error) {
+			console.log(error);
+		});
 ```
 response data:
 ```js
@@ -53,6 +53,8 @@ response data:
 	data: {}
 }
 ```
+#### ral.initRAL
+初始化ral配置
 #### ral.request
 resovle return data; if status !=0 reject
 
