@@ -6,11 +6,8 @@
 /* jshint esversion: 6 */
 /* jshint node:true */
 
-const os = require('os');
-const path = require('path');
-const _ = require('underscore');
-var RAL = require('node-ral').RAL;
-var ralP = require('node-ral').RALPromise;
+var RAL = require('yog-ral').RAL;
+var ralP = require('yog-ral').RALPromise;
 
 function now() {
     return (new Date()).valueOf();
