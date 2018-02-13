@@ -1,11 +1,12 @@
 {
     "name": "ral-request",
-    "version": "1.0.21",
+    "version": "1.0.22",
     "description": "ral request",
     "author": "imcooder <imcooder@gmail.com>",
     "license": "MIT",
     "repository": "git@github.com:imcooder/ral-request",
     "dependencies": {
+        "underscore": "^1.8.3",
         "yog-ral": "^0.20.0"
     },
     "devDependencies": {

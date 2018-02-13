@@ -8,7 +8,7 @@
 
 var RAL = require('yog-ral').RAL;
 var ralP = require('yog-ral').RALPromise;
-
+const _ = require('underscore');
 function now() {
     return (new Date()).valueOf();
 }
