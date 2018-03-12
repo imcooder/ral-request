@@ -54,7 +54,7 @@ response data:
 }
 ```
 #### ral.initRal
-初始化ral配置
+初始化ral配置, example ral.initRal(require('yog-ral'))
 #### ral.request
 resovle return data; if status !=0 reject
 

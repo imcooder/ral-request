@@ -6,27 +6,30 @@
 /* jshint esversion: 6 */
 /* jshint node:true */
 
-var RAL = require('yog-ral').RAL;
-var ralP = require('yog-ral').RALPromise;
 const _ = require('underscore');
 function now() {
     return (new Date()).valueOf();
 }
 
 module.exports = {
-    initRal: function(opt) {
-        console.log('initRal:%j', opt);
-        RAL.init(opt);
+    ral: null,
+    RALPromise: null,
+    initRal: function(ral) {
+        this.ral = ral;
+        this.RALPromise = ral.RALPromise;
     },
     request: function(serviceName, opt) {
         let start = now();
+        if (!this.RALPromise) {
+            return Promise.reject(new Error('RALPromise is null'));
+        }
         if (_.has(opt, 'headers') && !(_.isObject(opt.headers) && !_.isArray(opt.headers))) {
             delete opt.headers;
         }
         if (_.has(opt, 'query') && !(_.isObject(opt.query) && !_.isArray(opt.query))) {
             delete opt.query;
         }
-        return ralP(serviceName, opt).then(data => {
+        return this.RALPromise(serviceName, opt).then(data => {
             console.log('ral response:', data);
             if (data && _.isString(data)) {
                 try {
@@ -61,13 +64,16 @@ module.exports = {
     },
     requestJson: function(serviceName, opt) {
         let start = now();
+        if (!this.RALPromise) {
+            return Promise.reject(new Error('RALPromise is null'));
+        }
         if (_.has(opt, 'headers') && !(_.isObject(opt.headers) && !_.isArray(opt.headers))) {
             delete opt.headers;
         }
         if (_.has(opt, 'query') && !(_.isObject(opt.query) && !_.isArray(opt.query))) {
             delete opt.query;
         }
-        return ralP(serviceName, opt).then(data => {
+        return this.RALPromise(serviceName, opt).then(data => {
             console.log('ral response:', data);
             if (data && _.isString(data)) {
                 try {
