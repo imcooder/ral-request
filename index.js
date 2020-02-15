@@ -3,7 +3,7 @@
  * @author imcooder@gmail.com
  */
 /* eslint-disable fecs-camelcase */
-/* jshint esversion: 6 */
+/* jshint esversion:8 */
 /* jshint node:true */
 
 const _ = require('underscore');
@@ -30,7 +30,6 @@ module.exports = {
             delete opt.query;
         }
         return this.RALPromise(serviceName, opt).then(data => {
-            console.log('ral response:', data);
             if (data && _.isString(data)) {
                 try {
                     data = JSON.parse(data);
@@ -40,25 +39,21 @@ module.exports = {
             }
             var jsonObject = data;
             if (!_.has(jsonObject, 'status')) {
-                console.error('need status');
-                console.log('[rpc]using:%d', now() - start);
+                // console.error('need status');
                 return Promise.reject(new Error('need status'));
             }
             if (jsonObject.status !== 0) {
                 let errMsg = jsonObject.msg || '';
-                console.error('status:%d not zero msg:%s', jsonObject.status, errMsg);
-                console.log('[rpc]using:%d', now() - start);
+                // console.error('status:%d not zero msg:%s', jsonObject.status, errMsg);
+                // console.log('[rpc]using:%d', now() - start);
                 return Promise.reject(new Error(errMsg));
             }
-            console.log('[rpc]using:%d', now() - start);
+            // console.log('[rpc]using:%d', now() - start);
             return jsonObject.data;
         }).catch(error => {
-            console.error('[ral]call failed:error:%s', error.stack);
             if (error.code === 'ETIMEDOUT' || error.code === 'ESOCKETTIMEDOUT') {
-                console.error('[rpc] timeout opt:%j', opt);
                 return Promise.reject(new Error('timeout'));
             }
-            console.log('[rpc]using:%d', now() - start);
             return Promise.reject(error);
         });
     },
@@ -74,24 +69,20 @@ module.exports = {
             delete opt.query;
         }
         return this.RALPromise(serviceName, opt).then(data => {
-            console.log('ral response:', data);
+            // console.log('ral response:', data);
             if (data && _.isString(data)) {
                 try {
                     data = JSON.parse(data);
                 } catch (error) {
-                    console.error('parse json failed:str[%s] error:%s', error.stack);
                     return Promise.reject(new Error('bad json'));
                 }
             }
-            console.log('[rpc]using:%d', now() - start);
             return data;
-        }).catch(function(error) {
-            console.error('[ral]call failed:error:%s', error.stack);
+        }).catch(error => {
+            // console.error('[ral]call failed:error:%s', error.stack);
             if (error.code === 'ETIMEDOUT' || error.code === 'ESOCKETTIMEDOUT') {
-                console.error('[rpc] timeout opt:%j', opt);
                 return Promise.reject(new Error('timeout'));
             }
-            console.log('[rpc]using:%d', now() - start);
             return Promise.reject(error);
         });
     }
